@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year of High Agency</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .tagline {
+            font-size: 1.2em;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .year-input {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .year-input input {
+            font-size: 1.5em;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            text-align: center;
+            width: 150px;
+            font-weight: 600;
+        }
+
+        .stats-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+
+        .quarters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .quarter-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .quarter-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .quarter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .quarter-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .quarter-months {
+            font-size: 0.9em;
+            color: #999;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .one-thing {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            resize: vertical;
+            min-height: 60px;
+            font-family: inherit;
+        }
+
+        .one-thing:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
+        }
+
+        .creation-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+
+        .creation-item input[type="checkbox"] {
+            margin-top: 4px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .creation-item input[type="text"] {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-family: inherit;
+        }
+
+        .creation-item input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .creation-item.completed input[type="text"] {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .add-creation {
+            background: #f0f0f0;
+            border: 2px dashed #ddd;
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            color: #999;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .add-creation:hover {
+            background: #e8e8e8;
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .progress-bar {
+            background: #f0f0f0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.3s;
+            border-radius: 4px;
+        }
+
+        .shipped-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .shipped-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .shipped-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .shipped-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .quarters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Year of High Agency</h1>
+            <p class="tagline">What will you create? What will you ship? What value will you add?</p>
+            <div class="year-input">
+                <input type="number" id="yearInput" placeholder="2025" min="2020" max="2050">
+            </div>
+        </header>
+
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-number" id="totalCreations">0</div>
+                <div class="stat-label">Total Goals</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="shippedCount">0</div>
+                <div class="stat-label">Shipped</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="completionRate">0%</div>
+                <div class="stat-label">Completion Rate</div>
+            </div>
+        </div>
+
+        <div class="quarters-grid" id="quartersGrid"></div>
+
+        <div class="shipped-section">
+            <div class="shipped-title">What I've Shipped This Year</div>
+            <div class="shipped-grid" id="shippedGrid">
+                <div class="empty-state">Nothing shipped yet. Time to create!</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const QUARTERS = [
+            { name: 'Q1', months: 'Jan - Mar' },
+            { name: 'Q2', months: 'Apr - Jun' },
+            { name: 'Q3', months: 'Jul - Sep' },
+            { name: 'Q4', months: 'Oct - Dec' }
+        ];
+
+        let yearData = {
+            year: new Date().getFullYear(),
+            quarters: {}
+        };
+
+        // Initialize quarters
+        QUARTERS.forEach(q => {
+            yearData.quarters[q.name] = {
+                oneThing: '',
+                creations: []
+            };
+        });
+
+        function saveData() {
+            localStorage.setItem('highAgencyYear', JSON.stringify(yearData));
+            updateStats();
+            updateShipped();
+        }
+
+        function loadData() {
+            const saved = localStorage.getItem('highAgencyYear');
+            if (saved) {
+                yearData = JSON.parse(saved);
+            }
+            document.getElementById('yearInput').value = yearData.year;
+        }
+
+        function updateStats() {
+            let total = 0;
+            let shipped = 0;
+
+            QUARTERS.forEach(q => {
+                const quarter = yearData.quarters[q.name];
+                total += quarter.creations.length;
+                shipped += quarter.creations.filter(c => c.completed).length;
+            });
+
+            document.getElementById('totalCreations').textContent = total;
+            document.getElementById('shippedCount').textContent = shipped;
+            document.getElementById('completionRate').textContent =
+                total > 0 ? Math.round((shipped / total) * 100) + '%' : '0%';
+        }
+
+        function updateShipped() {
+            const shippedGrid = document.getElementById('shippedGrid');
+            const allShipped = [];
+
+            QUARTERS.forEach(q => {
+                const quarter = yearData.quarters[q.name];
+                quarter.creations.forEach(c => {
+                    if (c.completed && c.text.trim()) {
+                        allShipped.push({ quarter: q.name, text: c.text });
+                    }
+                });
+            });
+
+            if (allShipped.length === 0) {
+                shippedGrid.innerHTML = '<div class="empty-state">Nothing shipped yet. Time to create!</div>';
+            } else {
+                shippedGrid.innerHTML = allShipped
+                    .map(item => `<div class="shipped-item">${item.text} <small>(${item.quarter})</small></div>`)
+                    .join('');
+            }
+        }
+
+        function updateQuarterProgress(quarterName) {
+            const quarter = yearData.quarters[quarterName];
+            const total = quarter.creations.length;
+            const completed = quarter.creations.filter(c => c.completed).length;
+            const percentage = total > 0 ? (completed / total) * 100 : 0;
+
+            const progressBar = document.querySelector(`[data-quarter="${quarterName}"] .progress-fill`);
+            if (progressBar) {
+                progressBar.style.width = percentage + '%';
+            }
+        }
+
+        function createCreationItem(quarterName, index) {
+            const creation = yearData.quarters[quarterName].creations[index];
+            const div = document.createElement('div');
+            div.className = 'creation-item' + (creation.completed ? ' completed' : '');
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = creation.completed;
+            checkbox.addEventListener('change', (e) => {
+                creation.completed = e.target.checked;
+                div.classList.toggle('completed', creation.completed);
+                saveData();
+                updateQuarterProgress(quarterName);
+            });
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = creation.text;
+            input.placeholder = 'What will you create and ship?';
+            input.addEventListener('input', (e) => {
+                creation.text = e.target.value;
+                saveData();
+            });
+
+            div.appendChild(checkbox);
+            div.appendChild(input);
+
+            return div;
+        }
+
+        function renderQuarter(quarter) {
+            const card = document.createElement('div');
+            card.className = 'quarter-card';
+            card.dataset.quarter = quarter.name;
+
+            const quarterData = yearData.quarters[quarter.name];
+
+            card.innerHTML = `
+                <div class="quarter-header">
+                    <div>
+                        <div class="quarter-title">${quarter.name}</div>
+                        <div class="quarter-months">${quarter.months}</div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section-title">The One Thing</div>
+                    <textarea class="one-thing" placeholder="What's the ONE project that matters most this quarter?">${quarterData.oneThing}</textarea>
+                </div>
+                <div class="section">
+                    <div class="section-title">Creations to Ship</div>
+                    <div class="creations-list"></div>
+                    <div class="add-creation">+ Add Creation</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+            `;
+
+            // One Thing textarea
+            const oneThingInput = card.querySelector('.one-thing');
+            oneThingInput.addEventListener('input', (e) => {
+                quarterData.oneThing = e.target.value;
+                saveData();
+            });
+
+            // Render existing creations
+            const creationsList = card.querySelector('.creations-list');
+            quarterData.creations.forEach((_, index) => {
+                creationsList.appendChild(createCreationItem(quarter.name, index));
+            });
+
+            // Add creation button
+            const addButton = card.querySelector('.add-creation');
+            addButton.addEventListener('click', () => {
+                quarterData.creations.push({ text: '', completed: false });
+                creationsList.appendChild(createCreationItem(quarter.name, quarterData.creations.length - 1));
+                saveData();
+            });
+
+            updateQuarterProgress(quarter.name);
+
+            return card;
+        }
+
+        function renderApp() {
+            const grid = document.getElementById('quartersGrid');
+            grid.innerHTML = '';
+            QUARTERS.forEach(quarter => {
+                grid.appendChild(renderQuarter(quarter));
+            });
+            updateStats();
+            updateShipped();
+        }
+
+        // Year input
+        document.getElementById('yearInput').addEventListener('change', (e) => {
+            yearData.year = parseInt(e.target.value);
+            saveData();
+        });
+
+        // Initialize
+        loadData();
+        renderApp();
+    </script>
+</body>
+</html>
